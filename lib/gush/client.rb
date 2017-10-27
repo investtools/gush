@@ -167,7 +167,9 @@ module Gush
     end
 
     def build_redis
-      Redis.new(url: configuration.redis_url)
+      redis_opts = { url: configuration.redis_url }
+      redis_opts.sentinels = configuration.redis_sentinels unless configuration.redis_sentinels.nil?
+      Redis.new(redis_opts)
     end
 
     def connection_pool
